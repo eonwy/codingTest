@@ -21,11 +21,12 @@ class Solution {
     static boolean isImpossible(int[] diffs, int[] times, long level, long limit){
         long t = (long)times[0];
         
-        for(int i =1; i<times.length; i++){
+        for(int i = 1; i < times.length; i++){
             if(diffs[i] > level){
-                t += ((long)diffs[i] - level) * ((long)times[i-1] + (long)times[i]);
+                t += (long) (diffs[i] - level) * (times[i-1] + times[i]) + times[i];
+            } else {
+                t += (long) times[i];
             }
-            t += (long)times[i];
         }
         
         return limit < t;
