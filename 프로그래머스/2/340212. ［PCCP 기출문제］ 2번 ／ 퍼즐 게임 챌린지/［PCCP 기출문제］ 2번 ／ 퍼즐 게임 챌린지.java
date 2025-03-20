@@ -5,13 +5,13 @@ class Solution {
         long left = 1;
         long right = limit;
         
-        while(left < right){
+        while(left <= right){
             long mid = (left + right) / 2;
             
             if(isImpossible(diffs, times, mid, limit)){
                 left = mid + 1;
             }else{
-                right = mid;
+                right = mid - 1;
             }
         }
         
@@ -19,7 +19,7 @@ class Solution {
     }
     
     static boolean isImpossible(int[] diffs, int[] times, long level, long limit){
-        long t = (long)times[0];
+        long t = (long) times[0];
         
         for(int i = 1; i < times.length; i++){
             if(diffs[i] > level){
