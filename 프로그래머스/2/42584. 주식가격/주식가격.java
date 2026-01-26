@@ -2,27 +2,24 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] prices) {
+        
+        int len = prices.length;
         int[] answer = new int[prices.length];
+        Stack<Integer> stack = new Stack<>();
         
-        Queue<Integer> q = new LinkedList<>();
-        
-        for (int p : prices) {
-            q.add(p);
-        }
-        
-        for (int i = 0; i < prices.length; i++) {
-            int cnt = 0;
-            int point = q.poll();
-            
-            for (int j = i + 1; j < prices.length; j++) {
-                cnt++;
-                if (point > prices[j]) break;
-                    
+        for (int i = 0; i < len; i++) {
+            while (!stack.isEmpty() && prices[stack.peek()] > prices[i]) {
+                int index = stack.pop();
+                answer[index] = i - index;
             }
-            
-            answer[i] = cnt;
+            stack.push(i);
         }
         
-        return answer;
+        while (!stack.isEmpty()) {
+            int index = stack.pop();
+            answer[index] = len - 1 - index;
+        }
+        
+        return answer;   
     }
 }
