@@ -9,8 +9,6 @@ public class Main {
 
         long[] length = new long[N - 1];
         long[] cost = new long[N];
-        boolean[] visited = new boolean[N];
-        long answer = 0;
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N - 1; i++) {
@@ -22,30 +20,11 @@ public class Main {
             cost[i] = Long.parseLong(st.nextToken());
         }
 
-        for (int i = 0; i < N; i++) {
-            int index = -1;
-            long min = Integer.MAX_VALUE;
-
-            for (int j = 0; j < N; j++) {
-                if (min > cost[j] && !visited[j]) {
-                    index = j;
-                    min = cost[j];
-                }
-            }
-
-            if (index == -1) {
-                break;
-            } else if (index == N - 1) {
-                visited[N - 1] = true;
-                continue;
-            }
-
-            for (int j = index; j < N - 1; j++) {
-                if (!visited[j]) {
-                    visited[j] = true;
-                    answer += cost[index] * length[j];
-                }
-            }
+        long answer = 0;
+        long minCost = cost[0];
+        for (int i = 0; i < N - 1; i++) {
+            minCost = Math.min(minCost, cost[i]);
+            answer += minCost * length[i];
         }
 
         System.out.println(answer);
