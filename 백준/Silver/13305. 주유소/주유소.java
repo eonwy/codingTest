@@ -7,24 +7,24 @@ public class Main {
         
         int N = Integer.parseInt(br.readLine());
 
-        int[] length = new int[N - 1];
-        int[] cost = new int[N];
+        long[] length = new long[N - 1];
+        long[] cost = new long[N];
         boolean[] visited = new boolean[N];
         long answer = 0;
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N - 1; i++) {
-            length[i] = Integer.parseInt(st.nextToken());
+            length[i] = Long.parseLong(st.nextToken());
         }
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            cost[i] = Integer.parseInt(st.nextToken());
+            cost[i] = Long.parseLong(st.nextToken());
         }
 
         for (int i = 0; i < N; i++) {
             int index = -1;
-            int min = Integer.MAX_VALUE;
+            long min = Integer.MAX_VALUE;
 
             for (int j = 0; j < N; j++) {
                 if (min > cost[j] && !visited[j]) {
@@ -32,12 +32,11 @@ public class Main {
                     min = cost[j];
                 }
             }
+
             if (index == -1) {
                 break;
-            }
-
-            if (index == N - 1) {
-                visited[index] = true;
+            } else if (index == N - 1) {
+                visited[N - 1] = true;
                 continue;
             }
 
