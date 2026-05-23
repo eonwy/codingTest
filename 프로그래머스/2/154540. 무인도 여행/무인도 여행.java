@@ -1,42 +1,73 @@
 import java.util.*;
 
 class Solution {
-    static int sum = 0;
-    
+
+    int[] dx = {0, 0, 1, -1};
+    int[] dy = {1, -1, 0, 0};
+
     public int[] solution(String[] maps) {
+
+        int n = maps.length;
+        int m = maps[0].length();
+
+        boolean[][] visited = new boolean[n][m];
         List<Integer> list = new ArrayList<>();
-        boolean[][] visited = new boolean[maps.length][maps[0].length()];
-        
-        for (int i = 0; i < maps.length; i++) {
-            for (int j = 0; j < maps[i].length(); j++) {
-                dfs(maps, visited, i, j);
-                
-                if (sum > 0) {
-                    list.add(sum);
-                    sum = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+
+                if (maps[i].charAt(j) == 'X' || visited[i][j]) {
+                    continue;
                 }
+
+                int sum = bfs(i, j, maps, visited);
+                list.add(sum);
             }
         }
-        
-        if (list.size() == 0) return new int[] {-1};
-        
-        list.sort(Comparator.naturalOrder());
-        
-        return list.stream().mapToInt(i->i).toArray();
-    }
-    
-    public void dfs(String[] maps, boolean[][] visited, int i, int j) {
-        if (i < 0 || j < 0 || i >= maps.length || j >= maps[0].length()) return;
-        
-        if (maps[i].charAt(j) == 'X' || visited[i][j]) return;
-        else {
-            visited[i][j] = true;
-            sum += maps[i].charAt(j) - '0';
+
+        if (list.isEmpty()) {
+            return new int[]{-1};
         }
-        
-        dfs(maps, visited, i+1, j);
-        dfs(maps, visited, i-1, j);
-        dfs(maps, visited, i, j+1);
-        dfs(maps, visited, i, j-1);
+
+        Collections.sort(list);
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private int bfs(int x, int y, String[] maps, boolean[][] visited) {
+
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{x, y});
+
+        visited[x][y] = true;
+
+        int sum = maps[x].charAt(y) - '0';
+
+        while (!q.isEmpty()) {
+
+            int[] cur = q.poll();
+
+            for (int i = 0; i < 4; i++) {
+
+                int nx = cur[0] + dx[i];
+                int ny = cur[1] + dy[i];
+
+                if (nx < 0 || ny < 0 || nx >= maps.length || ny >= maps[0].length()) {
+                    continue;
+                }
+
+                if (visited[nx][ny] || maps[nx].charAt(ny) == 'X') {
+                    continue;
+                }
+
+                visited[nx][ny] = true;
+
+                sum += maps[nx].charAt(ny) - '0';
+
+                q.offer(new int[]{nx, ny});
+            }
+        }
+
+        return sum;
     }
 }
