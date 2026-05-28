@@ -1,9 +1,13 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] num_list) {
-        int[] answer = new int[num_list.length];
-        for (int i=0; i<num_list.length; i++){
-            answer[i] = num_list[num_list.length -1 - i];
+        Deque<Integer> answer = new ArrayDeque<>();
+        
+        for (int n : num_list) {
+            answer.addFirst(n);
         }
-        return answer;
+        
+        return answer.stream().mapToInt(i->i).toArray();
     }
 }
