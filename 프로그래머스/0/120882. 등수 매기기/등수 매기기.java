@@ -1,19 +1,22 @@
-import java.util.*;
-
 class Solution {
     public int[] solution(int[][] score) {
-        ArrayList<Integer> mean = new ArrayList<>();
-        ArrayList<Integer> answer = new ArrayList<>();
+        int[] answer = new int[score.length];
+        double[] mid = new double[score.length];
         
-        for (int[] s : score) {
-            mean.add(s[0] + s[1]);
+        for(int i=0; i<score.length; i++){
+            mid[i] = (double)(score[i][0] + score[i][1]) / 2;
         }
-        Collections.sort(mean, Collections.reverseOrder());
-        
-        for (int i = 0; i < score.length; i++) {
-            answer.add(mean.indexOf(score[i][0] + score[i][1]) + 1);
+
+        for(int i=0; i<mid.length; i++){
+            int num = 1;
+            for(int j=0; j<mid.length; j++){
+                if(mid[i] < mid[j]){
+                    num++;
+                }
+            }
+            answer[i] = num;
         }
         
-        return answer.stream().mapToInt(i->i).toArray();
+        return answer;
     }
 }
