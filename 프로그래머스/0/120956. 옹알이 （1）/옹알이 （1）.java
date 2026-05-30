@@ -10,7 +10,7 @@ class Solution {
                 }
             }
             
-            if (b.matches(" +")) answer++;
+            if (b.trim().isEmpty()) answer++;
         }
         
         return answer;
